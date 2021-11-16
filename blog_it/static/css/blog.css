@@ -5,6 +5,13 @@ body {
     font-family:helvetica, sans-serif; 
 }
 
+p {
+    margin:0;
+    padding:0;
+    color: #3a333b;  /* added this */
+    font-family:helvetica, sans-serif; 
+}
+
 a { 
     color:#b07bc5;  /* changed this */
     text-decoration:none; 
