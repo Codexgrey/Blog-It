@@ -1,15 +1,22 @@
+from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from .models import Post, Comment
 from .forms import EmailPostForm, CommentForm
 from django.core.mail import send_mail
+from taggit.models import Tag
 
 
 # Create your views here.
     #NOTE - post_list as function-based view
-def post_list(request):
+def post_list(request, tag_slug=None):
     object_list = Post.published.all()
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        object_list = object_list.filter(tag__in=[tag])
+
     paginator = Paginator(object_list, 3) # 3 posts in each page
     page = request.GET.get('page')
 
@@ -22,7 +29,7 @@ def post_list(request):
         # If page is out of range deliver last page of results
         posts = paginator.page(paginator.num_pages)
 
-    context = {'page': page, 'posts': posts}
+    context = {'page': page, 'posts': posts, 'tag': tag}
     return render(request, 'blog/post/list.html', context)
 
 
@@ -61,12 +68,17 @@ def post_detail(request, year, month, day, post):
     else:
         comment_form = CommentForm()
 
+    post_tags_ids = post.tag.values_list('id', flat=True)
+    similar_posts = Post.published.filter(tag__in=post_tags_ids).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tags=Count('tag')).order_by('-same_tags','-publish')[:4]
+
     context = {
         'post': post, 
         'comments': comments, 
         'new_comment': new_comment, 
-        'comment_form': comment_form
-        }
+        'comment_form': comment_form,
+        'similar_posts': similar_posts
+    }
     return render(request, 'blog/post/detail.html', context)
 
 

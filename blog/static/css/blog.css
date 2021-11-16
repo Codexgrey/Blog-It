@@ -23,6 +23,10 @@ h2 {
     color:#b07bc5;  /* added this */
 }
 
+#similar {
+    color:rgb(90, 137, 184)
+}
+
 #content { 
     float:left;
     width:60%;
@@ -44,8 +48,8 @@ h2 {
     font-style: italic; 
 }
 
-.tags {
-    color:dodgerblue;
+.tags #tags {
+    color:rgb(90, 137, 184);
     font-family: monospace, serif;
 }
 
