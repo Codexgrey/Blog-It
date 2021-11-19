@@ -4,5 +4,6 @@ from .models import Post
 # serializers here
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'author', 'title', 'body', 'created',) # OR '__all__'
         model = Post
+        fields = ('id', 'author', 'title', 'body', 'created',) # OR '__all__'
+        
