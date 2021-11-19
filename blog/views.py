@@ -7,6 +7,20 @@ from .forms import EmailPostForm, CommentForm
 from django.core.mail import send_mail
 from taggit.models import Tag
 
+# for API
+from rest_framework import generics
+from .models import Post
+from .serializers import PostSerializer
+
+# API views
+class PostList(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
 
 # Create your views here.
     #NOTE - post_list as function-based view
