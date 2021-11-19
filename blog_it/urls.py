@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # blogapi/v1/ - its goo practice to always version your API
     path('blog/', include('blog.urls', namespace='blog'))
 ]
