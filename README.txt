@@ -2,4 +2,4 @@
 - pip install requirements.txt
 
 # RUN APP
-python manage.py runserver 
+- python manage.py runserver 
